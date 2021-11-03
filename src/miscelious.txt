@@ -1,0 +1,1 @@
+box componant in detail: https://codesandbox.io/s/54ol3?file=/demo.js

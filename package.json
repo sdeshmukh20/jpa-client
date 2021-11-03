@@ -1,0 +1,62 @@
+{
+  "name": "jpa-client",
+  "version": "5.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "next",
+    "@material-ui/data-grid": "^4.0.0-alpha.36",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "next",
+    "@material-ui/styled-engine": "npm:@material-ui/styled-engine-sc@next",
+    "@material-ui/styles": "^4.11.4",
+    "@material-ui/x-grid-data-generator": "^4.0.0-alpha.36",
+    "@material-ui/x-license": "^4.0.0-alpha.36",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/lodash": "^4.14.172",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/styled-components": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "latest",
+    "recharts": "^2.0.10",
+    "styled-components": "latest",
+    "typescript": "latest"
+  },
+  "resolutions": {
+    "@material-ui/styled-engine": "npm:@material-ui/styled-engine-sc@next"
+  },
+  "scripts": {
+    "tsc": "./node_modules/.bin/tsc",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.8",
+    "nodemon": "^2.0.12"
+  }
+}
