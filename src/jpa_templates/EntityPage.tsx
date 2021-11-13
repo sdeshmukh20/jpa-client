@@ -12,11 +12,17 @@ export const EntityPage = React.forwardRef((props: ViewEntityProps, ref) => {
    // setViewId(viewId2);
     props.selectRow(viewId2);
   }
+  React.useEffect(() => {
+    //blank
+    //testMe();
+    //alert('waah');
+  })
 
   React.useImperativeHandle(
     ref,
     () => ({
       showAlert() {
+        alert('hi ui')
         testMe();
       }
     }),
@@ -30,7 +36,7 @@ export const EntityPage = React.forwardRef((props: ViewEntityProps, ref) => {
     if (props.entity) {
       return (
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
-          Name:{props.entity.first}<br />
+          Name:{props.entity.first}<br /> V1V1d
           City:{props.entity.city}<br />
           id:{props.entity.id}
           <hr />

@@ -17,7 +17,6 @@ import _ from "lodash";
 import { exRows } from '../service/RestEntity';
 import { emptyJpaState } from '../data-box/InitialState';
 import { Button } from '@material-ui/core';
-import { EntityPageV2 } from './EntityPageV2';
 
 export default function JpaHome(props:JPAHomeProps) {
 
@@ -27,15 +26,21 @@ export default function JpaHome(props:JPAHomeProps) {
     const updateAndSetEntityAsSelected = (entityName: string) => {
         let rowMap = exRows(entityName);
         setAppJpaState(prevState=>{
+            let names=prevState.flags.entityNames;
+            names.push(entityName);
             prevState.entityMap[entityName] = {
                 entityName: entityName,
                 rowMap: rowMap
             }
             prevState.flags={
                 entityClicked:false,
-                hideEntityRows:false
+                hideEntityRows:false,
+                entityListOccurance:0,
+                entityNames:names,
+                homeInitiated:false
             }
-            prevState.selectedEntity = entityName;         
+            prevState.selectedEntity = entityName;  
+            alert('updated jpa-state:'+JSON.stringify(prevState))       
         return {...prevState};
         });
     }
@@ -47,10 +52,22 @@ export default function JpaHome(props:JPAHomeProps) {
         });
     }
 
+    const finalizeEntitySelection = () => {
+        if(appJpaState.flags.entityNames[0] && !appJpaState.flags.homeInitiated){
+        setAppJpaState(prevState=>{
+           
+                prevState.selectedEntity = prevState.flags.entityNames[0];
+                appJpaState.flags.homeInitiated=true;
+        return {...prevState};
+        });
+    }
+    }
+
     const setEntityIdAsSelected = (viewId: number) => {
         setAppJpaState(prevState=>{
             prevState.viewId=viewId;
             prevState.flags.hideEntityRows=true;
+            alert('prevState.selectedEntity'+prevState.selectedEntity);
         return {...prevState};
         });
     }
@@ -60,22 +77,41 @@ export default function JpaHome(props:JPAHomeProps) {
     }
 
     let { path, url } = useRouteMatch();
+    function ComponentEntitySection(){
+        return (  
+        <Grid item xs={10}>
+            <CustomSeparator />
+            <Switch>
+                <Route exact path={path}>
+                </Route>
+                <Route path={`${path}/:entityName`} render={() => NestedComponent_EntityDataRows()} />
+            </Switch>
+        </Grid>
+        );
+    }
     function NestedComponent_EntityDataRows(){
-        return (<EntityDataRows entityClicked={appJpaState.flags.entityClicked} hideRows={appJpaState.flags.hideEntityRows} viewState={()=>{viewState()}} selectRow={(viewId) => { setEntityIdAsSelected(viewId) }}  entityRowsDetails={appJpaState.entityMap[appJpaState.selectedEntity]} setRows={(value) => { updateAndSetEntityAsSelected(value) }} 
+
+        return (<EntityDataRows rowComponent={()=>{return NestedComponent_EntityDataRows()}}     entityClicked={appJpaState.flags.entityClicked} hideRows={appJpaState.flags.hideEntityRows} viewState={()=>{viewState()}} selectRow={(viewId) => { setEntityIdAsSelected(viewId) }}  entityRowsDetails={appJpaState.entityMap[appJpaState.selectedEntity]} setRows={(value) => { updateAndSetEntityAsSelected(value) }} 
         entity={appJpaState.entityMap[appJpaState.selectedEntity].rowMap.get(appJpaState.viewId)}
         />);
     }
 
     // render component
+    // <AppBar> elevation={0} to remove shadow
     function JpaAppBar() {
+        React.useEffect(()=>{
+            //alert('jpa effect loaded 3x')
+            //viewState();
+            //finalizeEntitySelection();
+        })
         return (
-            <AppBar position="static">
+            <AppBar position="static"  elevation={0}>
                 <Toolbar variant="dense">
                     <IconButton edge="start" color="inherit" aria-label="menu" >
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" component="div">
-                        JPA Insider
+                        JPA chya Gawat
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -95,15 +131,15 @@ export default function JpaHome(props:JPAHomeProps) {
                         <EntityList flagClicked={appJpaState.flags.entityClicked} title='ok' onEntityClick={()=>{enableEntityClickedFlag()}}/>
                     </Box>
                 </Grid>
-
-                <Grid item xs={10}>
-                    <CustomSeparator />
-                    <Switch>
-                        <Route exact path={path}>
-                        </Route>
-                        <Route path={`${path}/:entityName`} render={() => NestedComponent_EntityDataRows()} />
-                    </Switch>
-                </Grid>
+        
+        <Grid item xs={10}>
+            <CustomSeparator />
+            <Switch>
+                <Route exact path={path}>
+                </Route>
+                <Route path={`${path}/:entityName`} render={() => NestedComponent_EntityDataRows()} />
+            </Switch>
+        </Grid>
             </Grid>
         </Box>
     );

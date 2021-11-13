@@ -74,7 +74,7 @@ export default function EntityDataRows(props: EntityRowsProps) {
 
 
   React$1.useEffect(() => {
-    //alert('EntityDataRows use effect: ');
+    // if below condition is always true, react goes in infinite loop.
     if (!(flag.entityName === entityName)||props.entityClicked) {
       //alert('props.entityClicked:'+props.entityClicked)
       let cloneState = _.cloneDeep(flag);
@@ -128,7 +128,10 @@ export default function EntityDataRows(props: EntityRowsProps) {
 
     function NestedComponant_EntityPage() {
       return (
+        <div>
+          Knock knock
         <EntityPage viewCurrentState={() => { props.viewState() }} selectRow={(viewId) => { props.selectRow(viewId) }} entity={props.entity}  ref={childRef} />
+        </div>
       );
     }
 
@@ -159,12 +162,14 @@ export default function EntityDataRows(props: EntityRowsProps) {
         Entity:<strong>{entityName}</strong>
         <RowComponent/>
         <hr />
-        <Grid item xs={10}>
-          <CustomSeparator />
+        
+          
           <Switch>
             <Route path={`${path}/view/:entityIdx`} component={NestedComponant_EntityPage} />
+            <Route path={`${path}/:entityName`} render={() => props.rowComponent()} />
           </Switch>
-        </Grid>
+          <CustomSeparator />
+        
       </div>
     );
   }

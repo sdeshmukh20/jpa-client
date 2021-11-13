@@ -1,6 +1,6 @@
 import { GridCellParams } from '@material-ui/data-grid';
 import * as H from 'history';
-import { ComponentType, ReactNode } from 'react';
+import { ComponentType, ReactNode, ReactElement, JSXElementConstructor } from 'react';
 
 export interface JPAHomeProps{
   children?:ReactNode
@@ -28,7 +28,9 @@ export interface RowStruct {
     entityClicked:boolean,
    setRows:(title:string)=>(void),
    selectRow:(id:number)=>(void),
-   viewState:()=>(void)
+   viewState:()=>(void),
+   rowComponent:()=>(ReactElement<any, any>)
+   
   }
 
   export interface EntityRowsState {
@@ -66,7 +68,10 @@ export interface RowStruct {
 
   interface Flags {
     hideEntityRows:boolean,
-    entityClicked:boolean
+    entityClicked:boolean,
+    entityListOccurance:number,
+    entityNames:string[],
+    homeInitiated:boolean
   }
   
   export interface Test2Child{
@@ -82,4 +87,10 @@ export interface TestRef{
 export interface ComponentApply{
   field:string,
   component(params: GridCellParams):ReactNode
+}
+
+export interface Parent{
+  entityName:string,
+  entityId:string,
+  fieldFor:string
 }

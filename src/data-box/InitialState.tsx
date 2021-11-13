@@ -15,7 +15,10 @@ export function emptyJpaState(): JpaState {
         viewId: -1,
         flags:{
             hideEntityRows:false,
-            entityClicked:false
+            entityClicked:false,
+            entityListOccurance:0,
+            entityNames:[],
+            homeInitiated:false
         }
     }
     return emptyState;
